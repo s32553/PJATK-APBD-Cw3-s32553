@@ -89,7 +89,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
-        throw Niezaimplementowano(nameof(Zadanie05_CzyIstniejeNieaktywneZapisanie));
+        bool istnieje = DaneUczelni.Zapisy.Any(z => !z.CzyAktywny);
+        return new[] { istnieje ? "Tak" : "Nie" };
     }
 
     /// <summary>
@@ -104,7 +105,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        bool wszyscyMaja = DaneUczelni.Prowadzacy.All(p => !string.IsNullOrWhiteSpace(p.Katedra));
+        return new[] { wszyscyMaja ? "Tak" : "Nie" };
     }
 
     /// <summary>
@@ -118,7 +120,8 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        int liczba = DaneUczelni.Zapisy.Count(z => z.CzyAktywny);
+        return new[] { $"Liczba aktywnych zapisów: {liczba}" };
     }
 
     /// <summary>
@@ -132,7 +135,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        var miasta = DaneUczelni.Studenci
+            .Select(s => s.Miasto)
+            .Distinct()
+            .OrderBy(m => m);
+        return miasta;
     }
 
     /// <summary>
