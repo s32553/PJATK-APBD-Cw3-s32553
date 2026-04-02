@@ -1,0 +1,10 @@
+# Pliki binarne i build
+bin/
+obj/
+
+# Pliki użytkownika i IDE
+*.user
+*.suo
+*.vs
+*.DS_Store
+*.vscode/
