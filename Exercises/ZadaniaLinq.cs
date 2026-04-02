@@ -154,9 +154,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie09_TrzyNajnowszeZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie09_TrzyNajnowszeZapisy));
+        var zapisy = DaneUczelni.Zapisy
+            .OrderByDescending(z => z.DataZapisu)
+            .Take(3)
+            .Select(z => $"Data: {z.DataZapisu:yyyy-MM-dd}, StudentId: {z.StudentId}, PrzedmiotId: {z.PrzedmiotId}");
+        return zapisy;
     }
-
     /// <summary>
     /// Zadanie:
     /// Zaimplementuj prostą paginację dla listy przedmiotów.
@@ -170,7 +173,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie10_DrugaStronaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
+        var przedmioty = DaneUczelni.Przedmioty
+            .OrderBy(p => p.Nazwa)
+            .Skip(2)  // pierwsza strona = dwa pierwsze
+            .Take(2)  // druga strona = kolejne dwa
+            .Select(p => $"Nazwa: {p.Nazwa}, Kategoria: {p.Kategoria}");
+        return przedmioty;
     }
 
     /// <summary>
@@ -185,7 +193,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie11_PolaczStudentowIZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie11_PolaczStudentowIZapisy));
+        var wynik = from s in DaneUczelni.Studenci
+            join z in DaneUczelni.Zapisy on s.Id equals z.StudentId
+            select $"Student: {s.Imie} {s.Nazwisko}, Data zapisu: {z.DataZapisu:yyyy-MM-dd}";
+        return wynik;
     }
 
     /// <summary>
@@ -201,9 +212,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie12_ParyStudentPrzedmiot()
     {
-        throw Niezaimplementowano(nameof(Zadanie12_ParyStudentPrzedmiot));
+        var wynik = from z in DaneUczelni.Zapisy
+            join s in DaneUczelni.Studenci on z.StudentId equals s.Id
+            join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+            select $"Student: {s.Imie} {s.Nazwisko}, Przedmiot: {p.Nazwa}";
+        return wynik;
     }
-
     /// <summary>
     /// Zadanie:
     /// Pogrupuj zapisy według przedmiotu i zwróć nazwę przedmiotu oraz liczbę zapisów.
